@@ -12,6 +12,10 @@
 .services{
     margin: 20px auto;
     }
+    
+.cancel{
+  position: absolute;
+}    
 figure.snip1174 {
   color: #fff;
   position: relative;

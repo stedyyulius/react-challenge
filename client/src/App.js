@@ -54,7 +54,7 @@ class App extends Component {
       this.setState({
         cards: this.state.cards
       })
-        console.log(JSON.stringify(this.response.data[expansion]));
+        console.log(JSON.stringify(response.data[expansion]));
     })
     .catch(err=>{
       console.log(err);

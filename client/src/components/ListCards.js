@@ -10,7 +10,7 @@ class ListCards extends Component{
   render(){
     return(
   <div className='container'>
-    <Link to="/"><button className="btn btn-danger">Cancel</button> </Link>
+    <Link to="/"><button className="cancel btn btn-danger">Cancel</button> </Link>
     <ul className="listWrapper">
       { this.props.cards.map((card,index) => (
       <Cards

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import {BrowserRouter,Route,Switch} from 'react-router-dom'
+
 
 import './App.css';
 
 import Title from './components/Title.js'
 import Search from './components/Search.js'
 import ListCards from './components/ListCards'
+import CardDetail from './components/CardDetail'
 
 class App extends Component {
   constructor(props){
@@ -16,42 +19,43 @@ class App extends Component {
   }
   render() {
     return (
+      <BrowserRouter>
       <div>
+
         <Title />
+        
         <Search 
         cards={this.state.cards} 
         getAllCards={this.getAllCards.bind(this)} 
-        getCardsByType={this.getCardsByType} />
-        <ListCards cards={this.state.cards} />
+        />
+              
+      <Switch>    
+        <Route
+        exact path="/list"
+        component={(props) => <ListCards cards={this.state.cards} {...props} />}       
+        />
+  
+        <Route 
+        exact path="/card/:id" 
+        component={CardDetail} 
+        />
+      </Switch>
       </div>
+      </BrowserRouter>
     );
   }
   
-  getAllCards(){
+  getAllCards(expansion){
     axios.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards",{
     headers:{"X-Mashape-Key":"sSWJykoWUAmshrcHV4HoH14n0KBfp1bcI0njsn8giOXI1ONRQ8"}})
     .then(response=>{
-      console.log(response.data);
-      this.state.cards = response.data["Journey to Un'Goro"]
+      // console.log(response.data[expansion]);
+      this.state.cards = response.data[expansion]
       this.setState({
         cards: this.state.cards
       })
-        //console.log(JSON.stringify(this.state.cards));
+        console.log(JSON.stringify(this.response.data[expansion]));
     })
-    .catch(err=>{
-      console.log(err);
-    })
-  }
-  
-  getCardsByType(type){
-    axios.get(`https://omgvamp-hearthstone-v1.p.mashape.com/cards/types/${type}`,{
-      headers:{"X-Mashape-Key":"sSWJykoWUAmshrcHV4HoH14n0KBfp1bcI0njsn8giOXI1ONRQ8"}})
-      .then(response=>{
-        this.state.cards = response.data
-        this.setState({
-          cards: this.state.cards
-        })
-      })
     .catch(err=>{
       console.log(err);
     })

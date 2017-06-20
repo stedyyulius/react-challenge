@@ -6,6 +6,9 @@
   margin-top:30px;
 }
 
+.details{
+  text-align: center;
+}
 .services{
     margin: 20px auto;
     }
@@ -89,7 +92,7 @@ figure.snip1174.red {
 }
 figure.snip1174:hover img,
 figure.snip1174.hover img {
-  opacity: 0;
+  opacity: 90;
   -webkit-transform: scale(1);
   transform: scale(1);
 }

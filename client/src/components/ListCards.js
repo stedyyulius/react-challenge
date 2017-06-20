@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import _ from 'lodash'
+import { BrowserRouter, Route, Switch,Link } from 'react-router-dom'
+ 
 
 import '../App.css'
 
@@ -9,9 +10,13 @@ class ListCards extends Component{
   render(){
     return(
   <div className='container'>
+    <Link to="/"><button className="btn btn-danger">Cancel</button> </Link>
     <ul className="listWrapper">
       { this.props.cards.map((card,index) => (
-      <Cards key={card.cardId} card={card} />
+      <Cards
+      key={index} 
+      card={card}
+      />
       ))}
     </ul>
   </div>

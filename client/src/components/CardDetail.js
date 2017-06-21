@@ -1,48 +1,52 @@
-import React,{Component} from 'react'
+import React from 'react'
 import {Link} from 'react-router-dom'
-import axios from 'axios'
+import {connect} from 'react-redux'
 
 import '../App.css'
 
-class CardDetail extends Component{
-  constructor(props){
-    super(props)
-    this.state={
-      card:""
-    }
-  }
-  render(){
+import {clearCards} from '../actions/index.js'
+
+const CardDetail = (props)=>{
     return(
     <div className ="container">
       <div className="services">
         <div className="details">
-        <Link to="/" ><button className="btn btn-danger">X</button></Link>
-            <img src={this.state.card.imgGold} />
-              <h2>{this.state.card.name}</h2>
-              <p>
-                {this.state.card.artist}
-              </p>
+        <Link 
+          to="/" 
+          onClick={()=> props.clearCards()}>
+          <button className="btn btn-danger">Back</button>
+        </Link>
+        {(props.card.length === 0)
+          ? <img 
+            src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" 
+            alt="loading"
+            className="loading"
+            />
+          :<div> 
+          <img src={props.card.imgGold} alt="card" />
+              <h2>{props.card.name}</h2>
+              <h3>
+                {props.card.artist}
+              </h3>
+            </div>
+          }
           </div>
         </div>  
       </div>
     )
   }
-  
-  componentDidMount(){
-    let id = this.props.match.params.id
-    console.log(id);
-    axios.get(`https://omgvamp-hearthstone-v1.p.mashape.com/cards/${id}`,{
-      headers:{"X-Mashape-Key":"sSWJykoWUAmshrcHV4HoH14n0KBfp1bcI0njsn8giOXI1ONRQ8"}})
-      .then(response=>{
-        this.state.card = response.data[0]
-        this.setState({
-          cards: this.state.card
-        })
-      })
-      .catch(err=>{
-        console.log(err);
-      })
-    }
+
+const mapStateToProps = (state) =>{
+  return {
+    card:state.card
+  }
 }
 
-export default CardDetail
+const mapDispatchToProps = (dispatch)=>{
+  return{
+    clearCards: () => dispatch(clearCards())
+  }
+}
+  
+
+export default connect(mapStateToProps,mapDispatchToProps)(CardDetail)

@@ -1,28 +1,36 @@
 import React, {Component} from 'react'
-import {BrowserRouter,Route,Switch,Link} from 'react-router-dom'
+import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 
 import '../App.css'
 
-
+import {getSingleCard} from '../actions/index.js'
 
 class Cards extends Component{
   render(){
     return(
       <div className="services">
         <div className="col-md-4">
-          <Link to= {`/card/${this.props.card.cardId}`}><figure className="snip1174 navy col-md-4">
-            <img src={this.props.card.imgGold} />
+          <Link 
+            to= {`/card/${this.props.card.cardId}`}
+            onClick={()=>this.props.getSingleCard(this.props.card.cardId)}>
+            <figure className="snip1174 navy col-md-4">
+            <img src={this.props.card.imgGold} alt="card" />
             <figcaption>
-              <h2>{this.props.card.name}</h2>
-              <p>
-                {this.props.card.artist}
-              </p>
+              <p>{this.props.card.cardId}</p>
             </figcaption>
-          </figure></Link>
+          </figure>
+         </Link>
           </div>
       </div>
     )
   }
 }
 
-export default Cards
+const mapDispatchToProps = (dispatch)=>{
+  return{
+    getSingleCard: (id) => dispatch(getSingleCard(id))
+    }
+  }  
+
+export default connect(null,mapDispatchToProps)(Cards)

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios'
 import {BrowserRouter,Route,Switch} from 'react-router-dom'
+import {Provider} from 'react-redux'
 
-
+import store from './store/store.js'
 import './App.css';
 
 import Title from './components/Title.js'
@@ -19,47 +19,37 @@ class App extends Component {
   }
   render() {
     return (
+      <Provider store={store}>
       <BrowserRouter>
       <div>
 
         <Title />
-        
-        <Search 
-        cards={this.state.cards} 
-        getAllCards={this.getAllCards.bind(this)} 
-        />
               
-      <Switch>    
+      <Switch>
+        
+        <Route 
+        exact path="/"
+        component={Search}
+        />    
+        
         <Route
         exact path="/list"
-        component={(props) => <ListCards cards={this.state.cards} {...props} />}       
+        component= {ListCards} />}       
         />
   
         <Route 
         exact path="/card/:id" 
         component={CardDetail} 
         />
+        
       </Switch>
+      
       </div>
       </BrowserRouter>
+    </Provider>
     );
   }
-  
-  getAllCards(expansion){
-    axios.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards",{
-    headers:{"X-Mashape-Key":"sSWJykoWUAmshrcHV4HoH14n0KBfp1bcI0njsn8giOXI1ONRQ8"}})
-    .then(response=>{
-      // console.log(response.data[expansion]);
-      this.state.cards = response.data[expansion]
-      this.setState({
-        cards: this.state.cards
-      })
-        console.log(JSON.stringify(response.data[expansion]));
-    })
-    .catch(err=>{
-      console.log(err);
-    })
-  }
+
 }
    
 

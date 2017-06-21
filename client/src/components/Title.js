@@ -7,7 +7,7 @@ class Title extends Component{
   render(){
     return(
       <div>
-        <h1 className='title'> Welcome to Hearthstone Database </h1>
+        <h1 className='title'> Hearthstone Database </h1>
       </div>
     )
   }
